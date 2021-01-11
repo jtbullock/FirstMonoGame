@@ -20,7 +20,10 @@ namespace FirstMonoGame
         private SpriteFont font;
         private int score = 0;
 
+        private float _angle = 0;
+
         private TimeSpan _lastTick = TimeSpan.FromSeconds(0);
+        private Vector2 _boiLocation;
             
         public Game1()
         {
@@ -43,7 +46,8 @@ namespace FirstMonoGame
             background = Content.Load<Texture2D>("stars");
             shuttle = Content.Load<Texture2D>("shuttle");
             earth = Content.Load<Texture2D>("earth");
-            boi = Content.Load<Texture2D>("images/boi_1");
+            boi = Content.Load<Texture2D>("boi_2");
+            _boiLocation = new Vector2(boi.Width * -1, 240);
 
             font = Content.Load<SpriteFont>("Score");
 
@@ -63,6 +67,15 @@ namespace FirstMonoGame
             }
 
             animatedSprite.Update();
+
+
+            _angle += 0.01f;
+            _boiLocation.X += 1.0f;
+
+            if(_boiLocation.X >= 800 + boi.Width)
+            {
+                _boiLocation.X = 0 - boi.Width;
+            }
 
             // TODO: Add your update logic here
 
@@ -84,6 +97,13 @@ namespace FirstMonoGame
             _spriteBatch.End();
 
             animatedSprite.Draw(_spriteBatch, new Vector2(400, 200));
+
+            _spriteBatch.Begin();
+            Vector2 location = new Vector2(400, 240);
+            Rectangle sourceRectangle = new Rectangle(0, 0, boi.Width, boi.Height);
+            Vector2 origin = new Vector2(boi.Width / 2, boi.Height / 2);
+            _spriteBatch.Draw(boi, _boiLocation, sourceRectangle, Color.White, _angle, origin, 1.0f, SpriteEffects.None, 1);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
