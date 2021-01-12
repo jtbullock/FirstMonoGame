@@ -24,6 +24,8 @@ namespace FirstMonoGame
 
         private TimeSpan _lastTick = TimeSpan.FromSeconds(0);
         private Vector2 _boiLocation;
+
+        private RotatingSpheres _rotatingSpheres = new RotatingSpheres();
             
         public Game1()
         {
@@ -51,6 +53,8 @@ namespace FirstMonoGame
 
             font = Content.Load<SpriteFont>("Score");
 
+            _rotatingSpheres.Load(Content);
+
             var texture = Content.Load<Texture2D>("smiley_walk");
             animatedSprite = new AnimatedSprite(texture, 4, 4);
         }
@@ -77,6 +81,8 @@ namespace FirstMonoGame
                 _boiLocation.X = 0 - boi.Width;
             }
 
+            _rotatingSpheres.Update();
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -84,26 +90,28 @@ namespace FirstMonoGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(background, new Rectangle(0, 0, 800, 480), Color.White);
-            _spriteBatch.Draw(earth, new Vector2(400, 240), Color.White);
-            _spriteBatch.Draw(shuttle, new Vector2(450, 240), Color.White);
-            _spriteBatch.End();
+            //_spriteBatch.Begin();
+            //_spriteBatch.Draw(background, new Rectangle(0, 0, 800, 480), Color.White);
+            //_spriteBatch.Draw(earth, new Vector2(400, 240), Color.White);
+            //_spriteBatch.Draw(shuttle, new Vector2(450, 240), Color.White);
+            //_spriteBatch.End();
 
-            _spriteBatch.Begin();
-            _spriteBatch.DrawString(font, $"Score: {score}", new Vector2(100, 100), Color.White);
-            _spriteBatch.End();
+            //_spriteBatch.Begin();
+            //_spriteBatch.DrawString(font, $"Score: {score}", new Vector2(100, 100), Color.White);
+            //_spriteBatch.End();
 
-            animatedSprite.Draw(_spriteBatch, new Vector2(400, 200));
+            //animatedSprite.Draw(_spriteBatch, new Vector2(400, 200));
 
-            _spriteBatch.Begin();
-            Vector2 location = new Vector2(400, 240);
-            Rectangle sourceRectangle = new Rectangle(0, 0, boi.Width, boi.Height);
-            Vector2 origin = new Vector2(boi.Width / 2, boi.Height / 2);
-            _spriteBatch.Draw(boi, _boiLocation, sourceRectangle, Color.White, _angle, origin, 1.0f, SpriteEffects.None, 1);
-            _spriteBatch.End();
+            //_spriteBatch.Begin();
+            //Vector2 location = new Vector2(400, 240);
+            //Rectangle sourceRectangle = new Rectangle(0, 0, boi.Width, boi.Height);
+            //Vector2 origin = new Vector2(boi.Width / 2, boi.Height / 2);
+            //_spriteBatch.Draw(boi, _boiLocation, sourceRectangle, Color.White, _angle, origin, 1.0f, SpriteEffects.None, 1);
+            //_spriteBatch.End();
+
+            _rotatingSpheres.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }
